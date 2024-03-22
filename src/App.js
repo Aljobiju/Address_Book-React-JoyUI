@@ -11,6 +11,7 @@ import CssBaseline from "@mui/joy/CssBaseline";
 import Login from "./pages/Login/Login";
 import Header from "./components/Common/Header";
 import MyProfile from "./pages/Profile/Profile";
+import HomePage from "./pages/Home/HomePage";
 
 const materialTheme = materialExtendTheme();
 function App() {
@@ -19,7 +20,9 @@ function App() {
       <JoyCssVarsProvider>
         <CssBaseline enableColorScheme />
         <Box>
-          <MyProfile />
+          {/* <MyProfile /> */}
+          {/* <HomePage /> */}
+          {/* <MyProfile /> */}
         </Box>
       </JoyCssVarsProvider>
     </MaterialCssVarsProvider>

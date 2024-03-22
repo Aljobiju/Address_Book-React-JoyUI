@@ -122,7 +122,7 @@ export default function Header() {
         >
           Files
         </Button> */}
-        <Typography level="h1">Address Book</Typography>
+        <Typography level="h4">Address Book</Typography>
       </Stack>
       {/* <Box sx={{ display: { xs: "inline-flex", sm: "none" } }}>
         <IconButton
