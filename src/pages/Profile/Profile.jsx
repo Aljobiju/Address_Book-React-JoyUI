@@ -22,11 +22,13 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import CountrySelector from "../../components/Profile/CountrySelector";
 import Header from "../../components/Common/Header";
 import { Phone } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 export default function MyProfile() {
+  const navigate = useNavigate();
   return (
     <Box sx={{ flex: 1, width: "100%" }}>
-      <Header />
+      {/* <Header /> */}
       <Stack
         spacing={4}
         sx={{
@@ -229,7 +231,14 @@ export default function MyProfile() {
           </Stack>
           <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
             <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button size="sm" variant="outlined" color="neutral">
+              <Button
+                size="sm"
+                variant="outlined"
+                color="neutral"
+                onClick={() => {
+                  navigate(`/`);
+                }}
+              >
                 Cancel
               </Button>
               <Button size="sm" variant="solid">

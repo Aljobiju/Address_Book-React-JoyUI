@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import { Box } from "@mui/joy";
 import {
@@ -12,20 +13,28 @@ import Login from "./pages/Login/Login";
 import Header from "./components/Common/Header";
 import MyProfile from "./pages/Profile/Profile";
 import HomePage from "./pages/Home/HomePage";
+import SignUp from "./pages/SignUp/SignUp";
 
 const materialTheme = materialExtendTheme();
+
 function App() {
   return (
-    <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
-      <JoyCssVarsProvider>
-        <CssBaseline enableColorScheme />
-        <Box>
-          {/* <MyProfile /> */}
-          {/* <HomePage /> */}
-          {/* <MyProfile /> */}
-        </Box>
-      </JoyCssVarsProvider>
-    </MaterialCssVarsProvider>
+    <Router>
+      <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
+        <JoyCssVarsProvider>
+          <CssBaseline enableColorScheme />
+          <Box>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/profile" element={<MyProfile />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              {/* Add more routes as needed */}
+            </Routes>
+          </Box>
+        </JoyCssVarsProvider>
+      </MaterialCssVarsProvider>
+    </Router>
   );
 }
 
