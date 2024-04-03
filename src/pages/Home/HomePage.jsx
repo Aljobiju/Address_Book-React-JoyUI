@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Common/Header";
 import WelcomeMessage from "../../components/Home/WelcomeMessage";
 import Box from "@mui/joy/Box";
@@ -6,6 +6,8 @@ import { Stack } from "@mui/system";
 import ContactCard from "../../components/Home/ContactCard";
 import { Phone, Place } from "@mui/icons-material";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import axios from "axios";
+
 import {
   Button,
   CardActions,
@@ -30,9 +32,30 @@ import {
   Modal,
 } from "@mui/joy";
 import CountrySelector from "../../components/Profile/CountrySelector";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [open, setOpen] = React.useState(false);
+  const [contacts, setContacts] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost/address_book/php/api_contact/contacts"
+        );
+        setContacts(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const HandleAddNew = () => {
+    navigate(`/AddNew`);
+  };
   return (
     <div>
       <Header />
@@ -43,13 +66,16 @@ const HomePage = () => {
           justifyContent="space-between"
           alignItems="center"
         >
+          {console.log(contacts)}
           <WelcomeMessage />
-          <Button sx={{ width: "100px" }}>Add new</Button>
+          <Button onClick={HandleAddNew} sx={{ width: "100px" }}>
+            Add new
+          </Button>
         </Stack>
 
         <Stack alignItems="center">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <ContactCard key={index} />
+          {contacts.map((contact, index) => (
+            <ContactCard key={index} contact={contact} />
           ))}
         </Stack>
         <Box

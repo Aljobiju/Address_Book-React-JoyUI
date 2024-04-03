@@ -29,6 +29,7 @@ import RightComponent from "../../components/Login/RightComponent";
 // }
 
 export default function Login() {
+  
   return (
     <main style={{ display: "flex", justifyContent: "center" }}>
       {/* <ModeToggle /> */}

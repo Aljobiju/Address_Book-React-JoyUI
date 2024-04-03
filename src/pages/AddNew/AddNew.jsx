@@ -24,7 +24,7 @@ import Header from "../../components/Common/Header";
 import { Phone } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-export default function MyProfile() {
+export default function AddNew() {
   const navigate = useNavigate();
   return (
     <Box sx={{ flex: 1, width: "100%" }}>

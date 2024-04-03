@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Divider,
   FormControl,
@@ -7,9 +8,8 @@ import {
   Typography,
 } from "@mui/joy";
 import Sheet from "@mui/joy/Sheet";
-import React, { useState } from "react";
 import Button from "@mui/joy/Button";
-import axios from "axios"; // Correct import
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const RightComponent = () => {
@@ -47,10 +47,8 @@ const RightComponent = () => {
     <Sheet
       sx={{
         width: 350,
-        mx: "auto", // margin left & right
-        marginLeft: 0,
-        marginRight: "auto",
-        my: 12, // margin top & bottom
+        mx: "auto",
+        my: 12,
         py: 3,
         px: 2,
         display: "flex",
@@ -74,33 +72,31 @@ const RightComponent = () => {
         </div>
       </center>
       <form onSubmit={handleSubmit}>
-      <FormControl>
-        <FormLabel>Email</FormLabel>
-        <Input
-          name="email"
-          type="email"
-          value={email} // Uncommented value prop
-          placeholder="johndoe@email.com"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel>Password</FormLabel>
-        <Input
-          name="password"
-          type="password"
-          value={password} // Uncommented value prop
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </FormControl>
-      <center>
-      <Button type="submit" sx={{ mt: 1 }} {...(error && { error: true })}>
+        <FormControl>
+          <FormLabel>Email</FormLabel>
+          <Input
+            name="email"
+            type="email"
+            value={email}
+            placeholder="johndoe@email.com"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Password</FormLabel>
+          <Input
+            name="password"
+            type="password"
+            value={password}
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </FormControl>
+        <Button type="submit" sx={{ mt: 1 }} {...(error && { error: true })}>
           Sign In
         </Button>
-        </center>
         {error && (
           <Typography variant="body2" color="error">
             {error}
@@ -113,7 +109,7 @@ const RightComponent = () => {
         fontSize="sm"
         sx={{ alignSelf: "center" }}
       >
-        Don&apos;t have an account?
+        Don't have an
       </Typography>
     </Sheet>
   );

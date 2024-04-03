@@ -7,7 +7,7 @@ import CardActions from "@mui/joy/CardActions";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import CountrySelector from "../../components/Profile/CountrySelector";
-import { Phone, Place } from "@mui/icons-material";
+import { ContactEmergencyTwoTone, Phone, Place } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { EditRounded } from "@mui/icons-material";
 import {
@@ -27,7 +27,7 @@ import {
 import React from "react";
 import MyProfile from "../../pages/Profile/Profile";
 
-const ContactCard = () => {
+const ContactCard = ({ contact }) => {
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
@@ -50,16 +50,16 @@ const ContactCard = () => {
               <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                 <Avatar size="sm">fghj</Avatar>
                 <div>
-                  <Typography level="body-xs">aljo</Typography>
-                  <Typography level="body-xs">aljo@gmail.com</Typography>
+                  <Typography level="body-xs">{contact.firstName}</Typography>
+                  <Typography level="body-xs">{contact.email}</Typography>
                 </div>
               </Box>
             </CardContent>
             <CardContent>
               <Typography fontWeight="md" textColor="success.plainColor">
-                (+91)9876543210
+                {contact.phoneNumber}
               </Typography>
-              <Typography level="body-sm">California, USA</Typography>
+              <Typography level="body-sm">{contact.address}</Typography>
             </CardContent>
             <CardContent>
               <IconButton
@@ -136,24 +136,24 @@ const ContactCard = () => {
                       gap: 2,
                     }}
                   >
-                    <Input disabled size="sm" placeholder="Aljo" />
+                    <Input readOnly size="sm" value={contact.firstName} />
                     <Input
-                      disabled
+                      readOnly
                       size="sm"
-                      placeholder="Biju"
+                      value={contact.lastName}
                       sx={{ flexGrow: 1 }}
                     />
                   </FormControl>
                 </Stack>
                 <Stack direction="row" spacing={2}>
                   <FormControl sx={{ flexGrow: 1 }}>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>email</FormLabel>
                     <Input
-                      disabled
+                      readOnly
                       size="sm"
                       type="email"
                       startDecorator={<EmailRoundedIcon />}
-                      placeholder="aljo@gmail.com"
+                      value={contact.email}
                       sx={{ flexGrow: 1 }}
                     />
                   </FormControl>
@@ -163,13 +163,12 @@ const ContactCard = () => {
                 </div> */}
                 <Stack direction="row" spacing={2}>
                   <FormControl sx={{ flexGrow: 1 }}>
-                    <FormLabel>Country</FormLabel>
+                    <FormLabel>Address</FormLabel>
                     <Input
-                      disabled
+                      readOnly
                       size="sm"
-                      type="country"
                       startDecorator={<Place />}
-                      placeholder="India"
+                      value={contact.address}
                       sx={{ flexGrow: 1 }}
                     />
                   </FormControl>
@@ -178,12 +177,11 @@ const ContactCard = () => {
                   <FormControl sx={{ flexGrow: 1 }}>
                     <FormLabel>Phone</FormLabel>
                     <Input
-                      disabled
+                      readOnly
                       size="sm"
                       type="phone"
                       startDecorator={<Phone />}
-                      placeholder="9876543210"
-                      // defaultValue="9876543210"
+                      value={contact.phoneNumber}
                       sx={{ flexGrow: 1 }}
                     />
                   </FormControl>
@@ -191,7 +189,7 @@ const ContactCard = () => {
                 <div>
                   <FormControl sx={{ display: { sm: "contents" } }}>
                     <FormLabel>Address</FormLabel>
-                    <Textarea disabled placeholder="Kakkanad" />
+                    <Textarea readOnly value={contact.address} />
                   </FormControl>
                 </div>
               </Stack>
@@ -234,7 +232,7 @@ const ContactCard = () => {
                   </IconButton>
                 </Stack>
                 <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>{contact.firstName}</FormLabel>
                   <FormControl
                     sx={{
                       display: {

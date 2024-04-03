@@ -14,6 +14,7 @@ import Header from "./components/Common/Header";
 import MyProfile from "./pages/Profile/Profile";
 import HomePage from "./pages/Home/HomePage";
 import SignUp from "./pages/SignUp/SignUp";
+import AddNew from "./pages/AddNew/AddNew";
 
 const materialTheme = materialExtendTheme();
 
@@ -25,10 +26,11 @@ function App() {
           <CssBaseline enableColorScheme />
           <Box>
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<Login />} />
               <Route path="/profile" element={<MyProfile />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/Home" element={<HomePage />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/addnew" element={<AddNew />} />
               {/* Add more routes as needed */}
             </Routes>
           </Box>
