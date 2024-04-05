@@ -38,9 +38,9 @@ const ContactCard = ({ contact }) => {
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
-  const handleIconButtonClick = () => {
-    navigate(`/profile`);
-  };
+  // const handleIconButtonClick = () => {
+  //   navigate(`/profile`);
+  // };
 
   const handleRemoveContact = async () => {
     try {
@@ -58,6 +58,10 @@ const ContactCard = ({ contact }) => {
     } catch (error) {
       console.error("Error removing contact:", error);
     }
+  };
+
+  const handleNavigate = () => {
+    navigate("/profile", { state: { contact } });
   };
 
   return (
@@ -91,9 +95,10 @@ const ContactCard = ({ contact }) => {
             </CardContent>
             <CardContent>
               <IconButton
-                onClick={() => {
-                  navigate(`/profile`);
-                }}
+                // onClick={() => {
+                //   navigate(`/profile`);
+                // }}
+                onClick={handleNavigate}
               >
                 <EditRounded />
               </IconButton>

@@ -8,7 +8,7 @@ import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import Typography from "@mui/joy/Typography";
 
 export default function CountrySelector(props) {
-  const { onChange, sx, ...other } = props;
+  const { onChange, sx, selectedCountry, ...other } = props;
 
   const handleCountryChange = (_, newValue) => {
     onChange(newValue);
@@ -23,7 +23,12 @@ export default function CountrySelector(props) {
         size="sm"
         autoHighlight
         isOptionEqualToValue={(option, value) => option.code === value.code}
-        defaultValue={{ code: "TH", label: "Thailand", phone: "66" }}
+        // defaultValue={{ code: "TH", label: "Thailand", phone: "66" }}
+        defaultValue={
+          selectedCountry
+            ? { code: "", label: `${selectedCountry} `, phone: "1" }
+            : { code: "US", label: "United States", phone: "1" }
+        }
         options={countries}
         onChange={handleCountryChange}
         renderOption={(optionProps, option) => (
