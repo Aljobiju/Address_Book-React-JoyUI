@@ -51,8 +51,9 @@ class Contact
     return true;
 }
 
-    public function updateContact($id, $data)
+    public function updateContact($data)
     {
+        $id=$data['id'];
         $userId = $data['userId'];
         $firstName = $data['firstName'];
         $lastName = $data['lastName'];
@@ -62,7 +63,7 @@ class Contact
         $country_name = $data['selectedCountry'];
         $image = $data['image'];
         
-        $query = "UPDATE employee SET emp_name = '$emp_name', emp_code = '$emp_code', emp_email = '$emp_email', emp_phone = '$emp_phone', emp_address = '$emp_address', emp_designation = '$emp_designation', emp_joining_date = '$emp_joining_date' WHERE id = $id";
+        $query = "UPDATE contact SET userId = '$userId', firstName = '$firstName', lastName = '$lastName', email = '$email', phoneNumber = '$phoneNumber', address = '$address', country_name = '$country_name',image='$image',createdAt=NOW(),updatedAt=NOW() WHERE id = $id";
         $result = mysqli_query($this->conn, $query);
         if ($result) {
             return true;

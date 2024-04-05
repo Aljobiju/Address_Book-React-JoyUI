@@ -41,25 +41,31 @@ switch ($method) {
             echo json_encode(['success' => $result]);
         }
         break;
-    // case 'PUT':
-    //     if (preg_match('/^\/employees\/(\d+)$/', $endpoint, $matches)) {
-    //         // Update employee by ID
-    //         $employeeId = $matches[1];
-    //         $data = json_decode(file_get_contents('php://input'), true);
-    //         $result = $employeeObj->updateEmployee($employeeId, $data);
-    //         echo json_encode(['success' => $result]);
-    //     }
-    //     break;
+    case 'PUT':
+        if ($endpoint === '/updatecontact') {
+            $data = json_decode(file_get_contents("php://input"), true);
+            // if ( isset($data['data'])) {
+                // $id = $requestData['id'];
+                // $data = $requestData['data'];
+                
+                $result = $contactObj->updateContact($data);
+                if ($result) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['error' => 'Failed to update contact']);
+                }
+            // } else {
+            //     echo json_encode(['error' => 'ID or data not provided']);
+            // }
+        }
     case 'DELETE':
         if ($endpoint === '/contacts') {
-            // Assuming the id is sent in the request body as JSON
             $requestData = json_decode(file_get_contents("php://input"), true);
             if (isset($requestData['id'])) {
                 $contactId = $requestData['id'];
                 $result = $contactObj->deleteContact($contactId);
                 echo json_encode(['success' => $result]);
             } else {
-                // Handle case where ID is not provided
                 echo json_encode(['error' => 'ID not provided']);
             }
         }
