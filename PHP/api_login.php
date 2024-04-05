@@ -1,6 +1,8 @@
 <?php
 include_once 'connection.php'; 
 include_once 'login.php';
+require_once 'decodeJWT.php';
+require_once 'generateJWT.php';
 $endpoint = $_SERVER['PATH_INFO'];
 $response = array();
 
@@ -34,9 +36,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = $userLogin->loginUser($email, $password);
 
             if ($user) {
+
+                $secretKey = 'Dsfhbjnd&zxcvb123';
+                $token = generateJwtToken(['user_id' => $user['id']], $secretKey,30000);
+
                 $response['success'] = true;
                 $response['message'] = "Login successful";
                 $response['user'] = $user;
+                $response['token'] = $token;
+
+
+
             } else {
                 $response['success'] = false;
                 $response['message'] = "Invalid email or password";

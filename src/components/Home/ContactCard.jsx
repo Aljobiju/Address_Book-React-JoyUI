@@ -7,7 +7,12 @@ import CardActions from "@mui/joy/CardActions";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import CountrySelector from "../../components/Profile/CountrySelector";
-import { ContactEmergencyTwoTone, Phone, Place } from "@mui/icons-material";
+import {
+  ContactEmergencyTwoTone,
+  Delete,
+  Phone,
+  Place,
+} from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { EditRounded } from "@mui/icons-material";
 import {
@@ -26,6 +31,8 @@ import {
 } from "@mui/joy";
 import React from "react";
 import MyProfile from "../../pages/Profile/Profile";
+import AvatarUpload from "../Common/AvatarUpload";
+import axios from "axios";
 
 const ContactCard = ({ contact }) => {
   const [open, setOpen] = React.useState(false);
@@ -34,6 +41,25 @@ const ContactCard = ({ contact }) => {
   const handleIconButtonClick = () => {
     navigate(`/profile`);
   };
+
+  const handleRemoveContact = async () => {
+    try {
+      const response = await axios.delete(
+        "http://localhost/address_book/php/api_contact/contacts",
+        {
+          data: { id: contact.id },
+        }
+      );
+      console.log(response.data);
+      if (response.data.success) {
+      } else {
+        console.error("Failed to remove contact");
+      }
+    } catch (error) {
+      console.error("Error removing contact:", error);
+    }
+  };
+
   return (
     <Box>
       <List sx={{ mb: -1 }}>
@@ -48,7 +74,9 @@ const ContactCard = ({ contact }) => {
           >
             <CardContent>
               <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                <Avatar size="sm">fghj</Avatar>
+                <Avatar size="sm">
+                  <AvatarUpload image={contact.image} />
+                </Avatar>
                 <div>
                   <Typography level="body-xs">{contact.firstName}</Typography>
                   <Typography level="body-xs">{contact.email}</Typography>
@@ -85,7 +113,12 @@ const ContactCard = ({ contact }) => {
                 borderColor: "divider",
               }}
             >
-              <ListItemButton sx={{ boxShadow: "none" }}>Remove</ListItemButton>
+              {/* <Button sx={{ boxShadow: "none" }} onClick={handleRemoveContact}>
+                Remove
+              </Button> */}
+              <IconButton onClick={() => handleRemoveContact()}>
+                <Delete />
+              </IconButton>
             </CardOverflow>
           </Card>
         </ListItemButton>
@@ -119,12 +152,13 @@ const ContactCard = ({ contact }) => {
                   maxHeight={200}
                   sx={{ flex: 1, minWidth: 120, borderRadius: "100%" }}
                 >
-                  <img
+                  {/* <img
                     src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
                     srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
                     loading="lazy"
                     alt=""
-                  />
+                  /> */}
+                  <AvatarUpload image={contact.image} />
                 </AspectRatio>
               </Stack>
               <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -163,12 +197,12 @@ const ContactCard = ({ contact }) => {
                 </div> */}
                 <Stack direction="row" spacing={2}>
                   <FormControl sx={{ flexGrow: 1 }}>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>Country</FormLabel>
                     <Input
                       readOnly
                       size="sm"
                       startDecorator={<Place />}
-                      value={contact.address}
+                      value={contact.country_name}
                       sx={{ flexGrow: 1 }}
                     />
                   </FormControl>

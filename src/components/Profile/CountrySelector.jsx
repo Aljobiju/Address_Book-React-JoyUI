@@ -8,7 +8,11 @@ import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import Typography from "@mui/joy/Typography";
 
 export default function CountrySelector(props) {
-  const { sx, ...other } = props;
+  const { onChange, sx, ...other } = props;
+
+  const handleCountryChange = (_, newValue) => {
+    onChange(newValue);
+  };
   return (
     <FormControl
       {...other}
@@ -21,6 +25,7 @@ export default function CountrySelector(props) {
         isOptionEqualToValue={(option, value) => option.code === value.code}
         defaultValue={{ code: "TH", label: "Thailand", phone: "66" }}
         options={countries}
+        onChange={handleCountryChange}
         renderOption={(optionProps, option) => (
           <AutocompleteOption {...optionProps}>
             <ListItemDecorator>

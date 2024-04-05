@@ -1,3 +1,5 @@
+
+
 import {
   Divider,
   FormControl,
@@ -7,7 +9,7 @@ import {
   Typography,
 } from "@mui/joy";
 import Sheet from "@mui/joy/Sheet";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/joy/Button";
 import axios from "axios"; // Correct import
 import { useNavigate } from "react-router-dom";
@@ -17,6 +19,15 @@ const RightComponent = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    // Check for existing user data in localStorage on component mount
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -32,6 +43,8 @@ const RightComponent = () => {
 
       if (response.data.success) {
         console.log("Login successful:", response.data.message);
+        setUserData(response.data.user);
+        localStorage.setItem("userData", JSON.stringify(response.data.user));
         navigate("/Home");
       } else {
         console.error("Login failed:", response.data.message);
@@ -74,32 +87,32 @@ const RightComponent = () => {
         </div>
       </center>
       <form onSubmit={handleSubmit}>
-      <FormControl>
-        <FormLabel>Email</FormLabel>
-        <Input
-          name="email"
-          type="email"
-          value={email} // Uncommented value prop
-          placeholder="johndoe@email.com"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel>Password</FormLabel>
-        <Input
-          name="password"
-          type="password"
-          value={password} // Uncommented value prop
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </FormControl>
-      <center>
-      <Button type="submit" sx={{ mt: 1 }} {...(error && { error: true })}>
-          Sign In
-        </Button>
+        <FormControl>
+          <FormLabel>Email</FormLabel>
+          <Input
+            name="email"
+            type="email"
+            value={email} // Uncommented value prop
+            placeholder="johndoe@email.com"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Password</FormLabel>
+          <Input
+            name="password"
+            type="password"
+            value={password} // Uncommented value prop
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </FormControl>
+        <center>
+          <Button type="submit" sx={{ mt: 1 }} {...(error && { error: true })}>
+            Sign In
+          </Button>
         </center>
         {error && (
           <Typography variant="body2" color="error">

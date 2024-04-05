@@ -16,7 +16,6 @@ import ListDivider from "@mui/joy/ListDivider";
 import Drawer from "@mui/joy/Drawer";
 import ModalClose from "@mui/joy/ModalClose";
 import DialogTitle from "@mui/joy/DialogTitle";
-
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
@@ -27,6 +26,7 @@ import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import { useNavigate } from "react-router-dom";
 
 // import Navigation from "./Navigation";
 
@@ -63,6 +63,12 @@ function ColorSchemeToggle() {
 
 export default function Header() {
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+  // const { instance } = useMsal();
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+    navigate("/");
+  };
   return (
     <Box
       sx={{
@@ -239,7 +245,7 @@ export default function Header() {
             </MenuItem>
 
             <ListDivider />
-            <MenuItem>
+            <MenuItem onClick={handleLogout}>
               <LogoutRoundedIcon />
               Log out
             </MenuItem>

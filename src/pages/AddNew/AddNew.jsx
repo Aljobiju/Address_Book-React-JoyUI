@@ -5,13 +5,10 @@ import Button from "@mui/joy/Button";
 import Divider from "@mui/joy/Divider";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
-import FormHelperText from "@mui/joy/FormHelperText";
 import Input from "@mui/joy/Input";
 import IconButton from "@mui/joy/IconButton";
 import Textarea from "@mui/joy/Textarea";
 import Stack from "@mui/joy/Stack";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
 import Typography from "@mui/joy/Typography";
 import Card from "@mui/joy/Card";
 import CardActions from "@mui/joy/CardActions";
@@ -20,15 +17,61 @@ import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import CountrySelector from "../../components/Profile/CountrySelector";
-import Header from "../../components/Common/Header";
 import { Phone } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import AvatarUpload from "../../components/Common/AvatarUpload";
 
 export default function AddNew() {
   const navigate = useNavigate();
+
+  // State variables for form inputs
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const [selectedCountry, setSelectedCountry] = React.useState(null);
+  const [image, setImage] = React.useState(null);
+
+  const handleCountryChange = (country) => {
+    setSelectedCountry(country ? country.label : selectedCountry);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    try {
+      // Send form data to the backend
+      const response = await axios.post(
+        "http://localhost/address_book/php/api_contact/contacts",
+        {
+          userId: 1253,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          phone: phone,
+          address: address,
+          selectedCountry: selectedCountry,
+          image: image,
+        }
+      );
+
+      if (response.data.success) {
+        console.log("Contact added successfully:", response.data.message);
+        navigate("/Home");
+      } else {
+        console.error("Failed to add contact:", response.data.message);
+        // Handle error here
+      }
+    } catch (error) {
+      console.error("Error adding contact:", error.message);
+      // Handle error here
+    }
+  };
+
   return (
     <Box sx={{ flex: 1, width: "100%" }}>
-      {/* <Header /> */}
       <Stack
         spacing={4}
         sx={{
@@ -43,118 +86,25 @@ export default function AddNew() {
           <Box sx={{ mb: 1 }}>
             <Typography level="title-md">Personal info</Typography>
             <Typography level="body-sm">
-              Customize how your profile information will apper to the networks.
+              Customize how your profile information will appear to the
+              networks.
             </Typography>
           </Box>
           <Divider />
-          <Stack
-            direction="row"
-            spacing={3}
-            sx={{ display: { xs: "none", md: "flex" }, my: 1 }}
-          >
-            <Stack direction="column" spacing={1}>
-              <AspectRatio
-                ratio="1"
-                maxHeight={200}
-                sx={{ flex: 1, minWidth: 120, borderRadius: "100%" }}
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                  srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                  loading="lazy"
-                  alt=""
-                />
-              </AspectRatio>
-              <IconButton
-                aria-label="upload new picture"
-                size="sm"
-                variant="outlined"
-                color="neutral"
-                sx={{
-                  bgcolor: "background.body",
-                  position: "absolute",
-                  zIndex: 2,
-                  borderRadius: "50%",
-                  left: 100,
-                  top: 170,
-                  boxShadow: "sm",
-                }}
-              >
-                <EditRoundedIcon />
-              </IconButton>
-            </Stack>
-            <Stack spacing={2} sx={{ flexGrow: 1 }}>
-              <Stack spacing={1}>
-                <FormLabel>Name</FormLabel>
-                <FormControl
-                  sx={{
-                    display: { sm: "flex-column", md: "flex-row" },
-                    gap: 2,
-                  }}
-                >
-                  <Input size="sm" placeholder="First name" />
-                  <Input
-                    size="sm"
-                    placeholder="Last name"
-                    sx={{ flexGrow: 1 }}
-                  />
-                </FormControl>
-              </Stack>
-              <Stack direction="row" spacing={2}>
-                <FormControl sx={{ flexGrow: 1 }}>
-                  <FormLabel>Email</FormLabel>
-                  <Input
-                    size="sm"
-                    type="email"
-                    startDecorator={<EmailRoundedIcon />}
-                    placeholder="email"
-                    // defaultValue="siriwatk@test.com"
-                    sx={{ flexGrow: 1 }}
-                  />
-                </FormControl>
-              </Stack>
-              <div>
-                <CountrySelector />
-              </div>
-              <Stack direction="row" spacing={2}>
-                <FormControl sx={{ flexGrow: 1 }}>
-                  <FormLabel>Phone</FormLabel>
-                  <Input
-                    size="sm"
-                    type="phone"
-                    startDecorator={<Phone />}
-                    placeholder="phone"
-                    // defaultValue="9876543210"
-                    sx={{ flexGrow: 1 }}
-                  />
-                </FormControl>
-              </Stack>
-              <div>
-                <FormControl sx={{ display: { sm: "contents" } }}>
-                  <FormLabel>Address</FormLabel>
-                  <Textarea placeholder="City,Town" />
-                </FormControl>
-              </div>
-            </Stack>
-          </Stack>
-          <Stack
-            direction="column"
-            spacing={2}
-            sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
-          >
-            <Stack direction="row" spacing={2}>
+          <form onSubmit={handleSubmit}>
+            <Stack
+              direction="row"
+              spacing={3}
+              sx={{ display: { xs: "none", md: "flex" }, my: 1 }}
+            >
+              {/* Input fields for personal info */}
               <Stack direction="column" spacing={1}>
                 <AspectRatio
                   ratio="1"
-                  maxHeight={108}
-                  sx={{ flex: 1, minWidth: 108, borderRadius: "100%" }}
+                  maxHeight={200}
+                  sx={{ flex: 1, minWidth: 120, borderRadius: "100%" }}
                 >
-                  <img
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                    srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                    loading="lazy"
-                    alt=""
-                  />
+                  <AvatarUpload image={image} setImage={setImage} allowUpload />
                 </AspectRatio>
                 <IconButton
                   aria-label="upload new picture"
@@ -166,86 +116,107 @@ export default function AddNew() {
                     position: "absolute",
                     zIndex: 2,
                     borderRadius: "50%",
-                    left: 85,
-                    top: 180,
+                    left: 100,
+                    top: 170,
                     boxShadow: "sm",
                   }}
                 >
                   <EditRoundedIcon />
                 </IconButton>
               </Stack>
-              <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                <FormLabel>Name</FormLabel>
-                <FormControl
-                  sx={{
-                    display: {
-                      sm: "flex-column",
-                      md: "flex-row",
-                    },
-                    gap: 2,
-                  }}
-                >
-                  <Input size="sm" placeholder="First name" />
-                  <Input size="sm" placeholder="Last name" />
-                </FormControl>
+              <Stack spacing={2} sx={{ flexGrow: 1 }}>
+                <Stack spacing={1}>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl
+                    sx={{
+                      display: { sm: "flex-column", md: "flex-row" },
+                      gap: 2,
+                    }}
+                  >
+                    {/* Input fields for first name and last name */}
+                    <Input
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      size="sm"
+                      placeholder="First name"
+                    />
+                    <Input
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      size="sm"
+                      placeholder="Last name"
+                      sx={{ flexGrow: 1 }}
+                    />
+                  </FormControl>
+                </Stack>
+                {/* Input field for email */}
+                <Stack direction="row" spacing={2}>
+                  <FormControl sx={{ flexGrow: 1 }}>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      size="sm"
+                      type="email"
+                      startDecorator={<EmailRoundedIcon />}
+                      placeholder="Email"
+                      sx={{ flexGrow: 1 }}
+                    />
+                  </FormControl>
+                </Stack>
+                {/* CountrySelector component */}
+                <div>
+                  <CountrySelector onChange={handleCountryChange} />
+                  {/* <p>Selected Country: {selectedCountry ? selectedCountry.label : 'None'}</p> */}
+                </div>
+                {/* Input field for phone */}
+                <Stack direction="row" spacing={2}>
+                  <FormControl sx={{ flexGrow: 1 }}>
+                    <FormLabel>Phone</FormLabel>
+                    <Input
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      size="sm"
+                      type="phone"
+                      startDecorator={<Phone />}
+                      placeholder="Phone"
+                      sx={{ flexGrow: 1 }}
+                    />
+                  </FormControl>
+                </Stack>
+                {/* Input field for address */}
+                <div>
+                  <FormControl sx={{ display: { sm: "contents" } }}>
+                    <FormLabel>Address</FormLabel>
+                    <Textarea
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="City, Town"
+                    />
+                  </FormControl>
+                </div>
               </Stack>
             </Stack>
-
-            <FormControl sx={{ flexGrow: 1 }}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                size="sm"
-                type="email"
-                startDecorator={<EmailRoundedIcon />}
-                placeholder="email"
-                defaultValue="siriwatk@test.com"
-                sx={{ flexGrow: 1 }}
-              />
-            </FormControl>
-            <div>
-              <CountrySelector />
-            </div>
-            <div>
-              <FormControl sx={{ display: { sm: "contents" } }}>
-                <FormLabel>Timezone</FormLabel>
-                <Select
+            <CardOverflow
+              sx={{ borderTop: "1px solid", borderColor: "divider" }}
+            >
+              <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
+                <Button
                   size="sm"
-                  startDecorator={<AccessTimeFilledRoundedIcon />}
-                  defaultValue="1"
+                  variant="outlined"
+                  color="neutral"
+                  onClick={() => {
+                    navigate(`/Home`);
+                  }}
                 >
-                  <Option value="1">
-                    Indochina Time (Bangkok){" "}
-                    <Typography textColor="text.tertiary" ml={0.5}>
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                  <Option value="2">
-                    Indochina Time (Ho Chi Minh City){" "}
-                    <Typography textColor="text.tertiary" ml={0.5}>
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                </Select>
-              </FormControl>
-            </div>
-          </Stack>
-          <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
-            <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button
-                size="sm"
-                variant="outlined"
-                color="neutral"
-                onClick={() => {
-                  navigate(`/Home`);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button size="sm" variant="solid">
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
+                  Cancel
+                </Button>
+                <Button type="submit" size="sm" variant="solid">
+                  Add
+                </Button>
+              </CardActions>
+            </CardOverflow>
+          </form>
         </Card>
       </Stack>
     </Box>

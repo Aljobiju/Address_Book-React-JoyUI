@@ -51,12 +51,18 @@ switch ($method) {
     //     }
     //     break;
     case 'DELETE':
-        if (preg_match('/^\/contacts\/(\d+)$/', $endpoint, $matches)) {
-      
-            $contactId = $matches[1];
-            $result = $contactObj->deleteContact($contactId);
-            echo json_encode(['success' => $result]);
+        if ($endpoint === '/contacts') {
+            // Assuming the id is sent in the request body as JSON
+            $requestData = json_decode(file_get_contents("php://input"), true);
+            if (isset($requestData['id'])) {
+                $contactId = $requestData['id'];
+                $result = $contactObj->deleteContact($contactId);
+                echo json_encode(['success' => $result]);
+            } else {
+                // Handle case where ID is not provided
+                echo json_encode(['error' => 'ID not provided']);
+            }
         }
         break;
-}
+    }    
 ?>
