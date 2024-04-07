@@ -15,10 +15,13 @@ const customTheme = extendTheme({
 });
 
 export default function WelcomeMessage() {
+  const userDataString = localStorage.getItem("userData");
+  const userData = JSON.parse(userDataString);
+  const name = userData.name;
+
   return (
     <CssVarsProvider theme={customTheme}>
-      <Box sx={(theme) => theme.typography.h1}>Welcome Rick,</Box>
+      <Box sx={(theme) => theme.typography.h1}>Welcome {name},</Box>
     </CssVarsProvider>
   );
 }
-

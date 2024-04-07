@@ -23,8 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 switch ($method) {
     case 'GET':
         if ($endpoint === '/contacts') {
-            
-            $contacts = $contactObj->getAllContacts();
+            $userData = json_decode($_SERVER['HTTP_X_USER_DATA'], true);
+            $id = $userData['id'];
+            $contacts = $contactObj->getAllContacts($id);
             echo json_encode($contacts);
         } elseif (preg_match('/^\/contacts\/(\d+)$/', $endpoint, $matches)) {
           

@@ -39,6 +39,7 @@ function ColorSchemeToggle() {
   if (!mounted) {
     return <IconButton size="sm" variant="outlined" color="primary" />;
   }
+
   return (
     <Tooltip title="Change theme" variant="outlined">
       <IconButton
@@ -64,11 +65,17 @@ function ColorSchemeToggle() {
 export default function Header() {
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+  const userDataString = localStorage.getItem("userData");
+  const userData = JSON.parse(userDataString);
+  const name = userData.name;
+  const email = userData.email;
   // const { instance } = useMsal();
   const handleLogout = () => {
     localStorage.removeItem("userData");
+    localStorage.removeItem("authToken");
     navigate("/");
   };
+
   return (
     <Box
       sx={{
@@ -226,10 +233,10 @@ export default function Header() {
                 />
                 <Box sx={{ ml: 1.5 }}>
                   <Typography level="title-sm" textColor="text.primary">
-                    Rick Sanchez
+                    {name}
                   </Typography>
                   <Typography level="body-xs" textColor="text.tertiary">
-                    rick@email.com
+                    {email}
                   </Typography>
                 </Box>
               </Box>

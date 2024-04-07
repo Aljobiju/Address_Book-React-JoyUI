@@ -1,5 +1,3 @@
-
-
 import {
   Divider,
   FormControl,
@@ -38,13 +36,14 @@ const RightComponent = () => {
         {
           email: email,
           password: password,
-        }
+        },
+        
       );
 
       if (response.data.success) {
         console.log("Login successful:", response.data.message);
-        setUserData(response.data.user);
         localStorage.setItem("userData", JSON.stringify(response.data.user));
+        localStorage.setItem("authToken", response.data.token);
         navigate("/Home");
       } else {
         console.error("Login failed:", response.data.message);
@@ -122,7 +121,7 @@ const RightComponent = () => {
       </form>
       <Divider />
       <Typography
-        endDecorator={<Link href="/sign-up"> Sign Up</Link>}
+        endDecorator={<Link href="/SignUp"> Sign Up</Link>}
         fontSize="sm"
         sx={{ alignSelf: "center" }}
       >

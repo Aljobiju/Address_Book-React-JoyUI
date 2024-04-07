@@ -6,9 +6,9 @@ class Contact
     {
         $this->conn = $conn;
     }
-    public function getAllContacts()
+    public function getAllContacts($id)
     {
-        $query = "SELECT * from contact";
+        $query = "SELECT * from contact WHERE userId = $id";
         $result = mysqli_query($this->conn, $query);
         $contacts = [];
         while ($row = mysqli_fetch_assoc($result)) {
@@ -18,7 +18,7 @@ class Contact
     }
     public function getContactById($id)
     {
-        $query = "SELECT * FROM contact WHERE id = $id";
+        $query = "SELECT * FROM contact WHERE userId = $id";
         $result = mysqli_query($this->conn, $query);
         $contact = mysqli_fetch_assoc($result);
         return $contact;

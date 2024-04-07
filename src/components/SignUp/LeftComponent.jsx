@@ -15,8 +15,8 @@ const LeftComponent = () => {
       sx={{
         width: 350,
         mx: "auto", // margin left & right
-        marginLeft: 0,
-        marginRight: "auto",
+        marginLeft: "auto",
+        marginRight: 0,
         my: 12, // margin top & bottom
         py: 3, // padding top & bottom
         px: 2, // padding left & right

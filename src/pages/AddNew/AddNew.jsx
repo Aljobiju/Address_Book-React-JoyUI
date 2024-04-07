@@ -34,6 +34,10 @@ export default function AddNew() {
   const [selectedCountry, setSelectedCountry] = React.useState(null);
   const [image, setImage] = React.useState(null);
 
+  const userDataString = localStorage.getItem("userData");
+  const userData = JSON.parse(userDataString);
+  const id = userData.id;
+
   const handleCountryChange = (country) => {
     setSelectedCountry(country ? country.label : selectedCountry);
   };
@@ -46,7 +50,7 @@ export default function AddNew() {
       const response = await axios.post(
         "http://localhost/address_book/php/api_contact/contacts",
         {
-          userId: 1253,
+          userId: id,
           firstName: firstName,
           lastName: lastName,
           email: email,

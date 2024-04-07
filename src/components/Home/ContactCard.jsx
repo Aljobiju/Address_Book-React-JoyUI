@@ -42,23 +42,23 @@ const ContactCard = ({ contact }) => {
   //   navigate(`/profile`);
   // };
 
-  const handleRemoveContact = async () => {
-    try {
-      const response = await axios.delete(
-        "http://localhost/address_book/php/api_contact/contacts",
-        {
-          data: { id: contact.id },
-        }
-      );
-      console.log(response.data);
-      if (response.data.success) {
-      } else {
-        console.error("Failed to remove contact");
-      }
-    } catch (error) {
-      console.error("Error removing contact:", error);
-    }
-  };
+  // const handleRemoveContact = async () => {
+  //   try {
+  //     const response = await axios.delete(
+  //       "http://localhost/address_book/php/api_contact/contacts",
+  //       {
+  //         data: { id: contact.id },
+  //       }
+  //     );
+  //     console.log(response.data);
+  //     if (response.data.success) {
+  //     } else {
+  //       console.error("Failed to remove contact");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error removing contact:", error);
+  //   }
+  // };
 
   const handleNavigate = () => {
     navigate("/profile", { state: { contact } });
@@ -103,7 +103,7 @@ const ContactCard = ({ contact }) => {
                 <EditRounded />
               </IconButton>
             </CardContent>
-            <CardOverflow
+            {/* <CardOverflow
               variant="soft"
               color="primary"
               sx={{
@@ -118,13 +118,13 @@ const ContactCard = ({ contact }) => {
                 borderColor: "divider",
               }}
             >
-              {/* <Button sx={{ boxShadow: "none" }} onClick={handleRemoveContact}>
+              <Button sx={{ boxShadow: "none" }} onClick={handleRemoveContact}>
                 Remove
-              </Button> */}
+              </Button>
               <IconButton onClick={() => handleRemoveContact()}>
                 <Delete />
               </IconButton>
-            </CardOverflow>
+            </CardOverflow> */}
           </Card>
         </ListItemButton>
       </List>

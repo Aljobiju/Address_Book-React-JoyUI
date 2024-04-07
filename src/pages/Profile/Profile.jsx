@@ -40,8 +40,30 @@ export default function MyProfile() {
   );
   const [image, setImage] = React.useState(contact.image);
 
+  const userDataString = localStorage.getItem("userData");
+  const userData = JSON.parse(userDataString);
+  const id = userData.id;
+
   const handleCountryChange = (country) => {
     setSelectedCountry(country ? country.label : selectedCountry);
+  };
+  const handleRemoveContact = async () => {
+    try {
+      const response = await axios.delete(
+        "http://localhost/address_book/php/api_contact/contacts",
+        {
+          data: { id: contact.id },
+        }
+      );
+      console.log(response.data);
+      if (response.data.success) {
+        navigate("/Home");
+      } else {
+        console.error("Failed to remove contact");
+      }
+    } catch (error) {
+      console.error("Error removing contact:", error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -53,7 +75,7 @@ export default function MyProfile() {
         "http://localhost/address_book/php/api_contact/updatecontact",
         {
           id: contact.id,
-          userId: 1253,
+          userId: id,
           firstName: firstName,
           lastName: lastName,
           email: email,
@@ -309,6 +331,15 @@ export default function MyProfile() {
               sx={{ borderTop: "1px solid", borderColor: "divider" }}
             >
               <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
+                <Button
+                  size="sm"
+                  variant="outlined"
+                  color="danger"
+                  // navigate(`/Home`);
+                  onClick={() => handleRemoveContact()}
+                >
+                  Delete
+                </Button>
                 <Button
                   size="sm"
                   variant="outlined"

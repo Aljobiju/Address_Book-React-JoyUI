@@ -39,11 +39,24 @@ const HomePage = () => {
   const [contacts, setContacts] = useState([]);
   const navigate = useNavigate();
 
+  const userDataString = localStorage.getItem("userData");
+  const userData = JSON.parse(userDataString);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        console.log("token fomr lclstorage", token);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         const response = await axios.get(
-          "http://localhost/address_book/php/api_contact/contacts"
+          "http://localhost/address_book/php/api_contact/contacts",
+          {
+            headers: {
+              // Include user data and auth token in headers
+              // Authorization: `Bearer ${authToken}`,
+              "X-User-Data": JSON.stringify(userData),
+            },
+          }
         );
         setContacts(response.data);
       } catch (error) {
@@ -72,43 +85,17 @@ const HomePage = () => {
             Add new
           </Button>
         </Stack>
-
-        <Stack alignItems="center">
-          {contacts.map((contact, index) => (
-            <ContactCard key={index} contact={contact} />
-          ))}
-        </Stack>
-        <Box
-          alignItems="center"
-          className="Pagination-laptopUp"
-          sx={{
-            pt: 2,
-            gap: 1,
-            [`& .${iconButtonClasses.root}`]: { borderRadius: "50%" },
-            display: {
-              xs: "none",
-              md: "flex",
-            },
-          }}
-        >
-          <Button
-            size="sm"
-            variant="outlined"
-            color="neutral"
-            startDecorator={<KeyboardArrowLeft />}
-          >
-            Previous
-          </Button>
-
-          <Button
-            size="sm"
-            variant="outlined"
-            color="neutral"
-            endDecorator={<KeyboardArrowRight />}
-          >
-            Next
-          </Button>
-        </Box>
+        {contacts.length === 0 ? (
+          <center>
+            <Typography variant="h6">No contacts available</Typography>
+          </center>
+        ) : (
+          <Stack alignItems="center">
+            {contacts.map((contact, index) => (
+              <ContactCard key={index} contact={contact} />
+            ))}
+          </Stack>
+        )}
       </Box>
       <Modal
         aria-labelledby="modal-title"
